@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - main
+      - release
       - test
+
+env:
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
 permissions:
   id-token: write

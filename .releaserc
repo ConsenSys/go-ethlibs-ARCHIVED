@@ -1,5 +1,7 @@
 branches:
-  - name: "main"
+  - name: main
+  - name: release
+  - name: test
 
 plugins:
   - "@semantic-release/commit-analyzer"

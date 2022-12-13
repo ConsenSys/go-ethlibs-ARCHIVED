@@ -12,9 +12,9 @@ env:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
   pull-requests: write
-  issues: read
+  issues: write
   checks: write
 
 jobs:

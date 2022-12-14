@@ -23,3 +23,6 @@ asdf-bootstrap:
 	asdf plugin add awscli https://github.com/MetricMike/asdf-awscli.git || true
 	NODEJS_CHECK_SIGNATURES=no asdf install
 
+.PHONY: test
+test:
+	go test ./... -v -cover

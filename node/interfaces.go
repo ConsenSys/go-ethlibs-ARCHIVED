@@ -34,6 +34,12 @@ type Client interface {
 	// NetVersion returns the netversion
 	NetVersion(ctx context.Context) (string, error)
 
+	// NetPeerCount returns the net peer count
+	NetPeerCount(ctx context.Context) (uint64, error)
+
+	// Syncing returns syncing status
+	Syncing(ctx context.Context) (bool, error)
+
 	// ChainId returns the chain id
 	ChainId(ctx context.Context) (string, error)
 

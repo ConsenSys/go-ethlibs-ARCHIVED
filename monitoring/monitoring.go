@@ -75,3 +75,27 @@ func (m *Monitoring) PostCheckFailure(config conf.MonitoringEnvSpec, test string
 		log.Panic(err.Error())
 	}
 }
+
+func (m *Monitoring) PostCheckWarning(config conf.MonitoringEnvSpec, test string, reasonErr error) {
+	reason := reasonErr.Error()
+
+	log.Printf("WARNING(%s): %s\n", test, reason)
+
+	checkTags := []string{
+		fmt.Sprintf("env:%s", config.Env),
+		fmt.Sprintf("network:%s", config.Network),
+		fmt.Sprintf("test:%s", test),
+	}
+
+	// nolint:exhaustivestruct // statsd will fill the rest of the fields
+	err := m.DatadogClient.ServiceCheck(&statsd.ServiceCheck{
+		Name:     m.CheckName,
+		Status:   statsd.Warn,
+		Tags:     checkTags,
+		Message:  reason,
+		Hostname: "k8s",
+	})
+	if err != nil {
+		log.Panic(err.Error())
+	}
+}

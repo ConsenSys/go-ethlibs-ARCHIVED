@@ -15,7 +15,7 @@ var clientHeadBlockNumber = promauto.NewGauge( //nolint:gochecknoglobals
 	},
 )
 
-func (r *Recorder) RecordClientHeadBlockNumber(ctx context.Context, url string) {
+func (r *Recorder) RecordClientHeadBlockNumber(ctx context.Context) {
 	ticker := time.NewTicker(r.Interval)
 
 	for {
@@ -23,7 +23,7 @@ func (r *Recorder) RecordClientHeadBlockNumber(ctx context.Context, url string) 
 
 		r.Logger.Debug("Metric sub-process:recordClientHeadBlockNumber is running")
 
-		blockNumber, err := r.Client.BlockNumber(ctx, url, map[string]string{})
+		blockNumber, err := r.Client.BlockNumber(ctx)
 		if err != nil {
 			r.Logger.Errorf("metrics.clientHeadBlockNumber failed... %s", err)
 

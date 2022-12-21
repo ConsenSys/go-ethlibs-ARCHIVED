@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/ConsenSys/go-ethlibs/node"
 	"github.com/ConsenSys/go-ethlibs/conf"
-	"github.com/ConsenSys/go-ethlibs/jsonrpc"
 	"go.uber.org/zap"
 )
 
@@ -13,7 +13,7 @@ import (
 type Recorder struct {
 	Config   conf.HealthCheckEnvSpec
 	Logger   *zap.SugaredLogger
-	Client   *jsonrpc.Client
+	Client   node.Client
 	Interval time.Duration
 }
 
@@ -21,7 +21,7 @@ type Recorder struct {
 func NewRecorder(
 	config conf.HealthCheckEnvSpec,
 	logger *zap.SugaredLogger,
-	client *jsonrpc.Client,
+	client node.Client,
 	interval time.Duration,
 ) *Recorder {
 	return &Recorder{
@@ -35,7 +35,7 @@ func NewRecorder(
 // Start records metrics in a regular interval.
 func (r *Recorder) Start(ctx context.Context) {
 	go func() {
-		go r.RecordClientHeadBlockNumber(ctx, r.Config.ClientEndpoint)
+		go r.RecordClientHeadBlockNumber(ctx)
 
 		// Stagger
 		time.Sleep(1 * time.Second)
